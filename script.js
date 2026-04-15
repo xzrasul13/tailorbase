@@ -18,37 +18,41 @@ const auth = getAuth(app);
 const db = getFirestore(app); // Инициализация базы данных
 const provider = new GoogleAuthProvider();
 
+// Отслеживаем состояние входа
 onAuthStateChanged(auth, (user) => {
   if (user) {
+    console.log("Пользователь авторизован, переходим...");
     window.location.href = "profile/main.html";
   }
 });
 
 const googleBtn = document.getElementById('google-login');
 
-  googleBtn.addEventListener('click', (e) => {
-    e.preventDefault();
+googleBtn.addEventListener('click', (e) => {
+  e.preventDefault();
 
-    signInWithPopup(auth, provider)
-      .then(async (result) => {
-        const user = result.user;
+  signInWithPopup(auth, provider)
+    .then(async (result) => {
+      const user = result.user;
 
-        // СОЗДАНИЕ ЛИЧНОГО КАБИНЕТА В БАЗЕ
-        // Мы сохраняем данные пользователя по его уникальному UID
-        await setDoc(doc(db, "users", user.uid), {
-          displayName: user.displayName,
-          email: user.email,
-          photoURL: user.photoURL,
-          lastLogin: new Date()
-        }, { merge: true }); // merge: true не перезаписывает данные, если они уже есть
+      // Сохраняем данные в Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        lastLogin: new Date()
+      }, { merge: true });
 
-        console.log("Данные пользователя сохранены!");
-        
-        // ПЕРЕХОД НА ГЛАВНУЮ СТРАНИЦУ ПРИЛОЖЕНИЯ
-        window.location.href = "/profile/main.html"; 
-      })
-      .catch((error) => {
+      console.log("Данные сохранены!");
+      // Перенаправление произойдет автоматически через onAuthStateChanged
+    })
+    .catch((error) => {
+      if (error.code === 'auth/popup-closed-by-user') {
+        console.warn("Пользователь закрыл окно авторизации");
+      } else {
         console.error("Ошибка:", error.code);
         alert("Ошибка входа: " + error.message);
-      });
-  });
+      }
+    });
+});
+// УДАЛЕНА лишняя скобка здесь
