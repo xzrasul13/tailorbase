@@ -1,0 +1,390 @@
+:root {
+  --background: #fff8ec;
+  --light-green: #99ad7a;
+  --dark-green: #546b41;
+  --dark-baige: #dcccac;
+  --dark-ft: #333516;
+  --light-ft: #fff8ec;
+  --font-family: "Audiowide", cursive;
+}
+
+* {
+  font-family: var(--font-family);
+}
+body {
+  background-color: var(--background);
+  font-family: var(--font-family);
+  margin: 0;
+}
+header {
+  background-color: var(--dark-baige);
+  padding: 10px;
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+nav ul li a {
+  color: var(--light-ft);
+  text-decoration: none;
+  font-size: 18px;
+}
+.logo {
+  color: var(--dark-ft);
+  font-size: 28px;
+  font-weight: bold;
+}
+.aboutus {
+  display: flex;
+  justify-content: center;
+  background-color: var(--dark-green);
+  width: 200px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 20px;
+}
+.login-btn {
+  display: flex;
+  justify-content: center;
+  background-color: var(--dark-green);
+  width: 200px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 20px;
+}
+.profile img{
+    display: flex;
+    width: 30px;
+    position: absolute;
+    right: 50px;
+}
+.search{
+    background-color: transparent;
+    border: none;
+    outline: none;  
+    color: var(--light-ft);
+    width: 140px;
+    font-size: 14px;
+}
+.search::placeholder {
+    text-align: center;
+    color: var(--light-ft);
+    font-size: 18px;
+    font-family: var(--font-family);
+}
+.add{
+    position: relative; 
+}
+.add-client {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--dark-green);
+    width: 50px;
+    height: 50px;
+    border-radius: 20px;
+    font-size: 48px;
+    color: var(--light-ft);
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+}
+/* Стили для popover */
+.popover-content {
+    padding: 20px;
+    border-radius: 20px;
+    border: none;
+    background-color: var(--dark-baige);
+    font-family: var(--font-family);
+    color: var(--dark-ft);
+    max-height: 500px;
+    overflow: auto;
+    box-sizing: border-box;
+}
+
+.popover-content::-webkit-scrollbar {
+    width: 10px;
+}
+
+.popover-content::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 20px;
+}
+
+.popover-content::-webkit-scrollbar-thumb {
+    background: rgba(84, 107, 65, 0.35);
+    border-radius: 20px;
+}
+
+.client-details-popover {
+    max-width: 300px;
+    min-width: 300px;
+    display: none;
+    z-index: 1000;
+}
+
+
+.client-details-popover h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.detail-measurements {
+    margin-bottom: 12px;
+    line-height: 1.5;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.detail-description {
+    margin-bottom: 12px;
+    color: #333;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+.close-btn {
+    background-color: var(--dark-green);
+    color: var(--light-ft);
+    border: none;
+    border-radius: 12px;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-family: var(--font-family);
+}
+
+.detail-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.edit-btn,
+.delete-btn {
+    padding: 10px 14px;
+    border: none;
+    border-radius: 12px;
+    font-family: var(--font-family);
+    cursor: pointer;
+}
+
+.edit-btn {
+    background-color: #546b41;
+    color: var(--light-ft);
+}
+
+.delete-btn {
+    background-color: #c34d4d;
+    color: #fff;
+}
+
+/* Стили для заднего фона при открытии (затемнение) */
+.popover-content::backdrop {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Исправляем стили кнопки (теперь это button, а не div) */
+.add-client {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--dark-green);
+    width: 60px; /* чуть увеличил для удобства */
+    height: 60px;
+    border-radius: 20px;
+    font-size: 40px;
+    color: var(--light-ft);
+    position: fixed; /* фиксируем, чтобы всегда была в углу экрана */
+    bottom: 40px;
+    right: 40px;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-family);
+}
+
+.clients-section {
+  padding: 20px 40px;
+}
+
+.clients-section h2 {
+  margin: 0 0 16px;
+  font-size: 32px;
+  color: var(--dark-ft);
+}
+
+.clients-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.client-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 200px;
+  min-height: 220px;
+  padding: 18px;
+  background: var(--light-green);
+  border-radius: 20px;
+  border: 2px solid rgba(84, 107, 65, 0.15);
+  cursor: pointer;
+  text-align: center;
+  color: var(--dark-ft);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.input-name{
+    background-color: var(--dark-baige);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: none;
+    color: var(--light-ft);
+    font-size: 18px;
+    font-family: var(--font-family);
+    margin: 0 auto;
+}
+.input-name::placeholder {
+    color: var(--dark-ft);
+    font-size: 18px;
+    font-family: var(--font-family);
+    text-align: center;
+}
+.client-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+.client-card-avatar {
+  width: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 12px;
+}
+
+.client-card-name {
+  width: 100%;
+  color: var(--light-ft);
+  font-size: 18px;
+  font-weight: bold;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.empty-clients {
+  color: #555;
+  background: rgba(84, 107, 65, 0.08);
+  padding: 20px;
+  border-radius: 16px;
+}
+
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 50px;
+  padding-left: 100px;
+  padding-top: 20px;
+}
+.user-info{
+    display: flex;
+    font-size: 36px;
+    margin: 0 auto;
+}
+hr{
+    width: 700px;
+    border: 2px solid var(--dark-green );
+    border-radius: 10px;
+}
+.log-out{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+}
+.logout{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--dark-green);
+    width: 200px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: none;
+    border-radius: 20px;
+    color: var(--light-ft);
+    font-size: 18px;
+    font-family: var(--font-family);
+}
+.measurement{
+    background-color: var(--dark-green);
+    width: 50px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: none;
+    border-radius: 20px;
+    color: var(--light-ft);
+    font-size: 10px;
+    font-family: var(--font-family);
+    margin: 5px;
+}
+
+/* Убираем стрелки (spin buttons) у полей размера */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.more-sizes-btn{
+    background-color: transparent;
+    width: 120px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: none;
+    color: var(--dark-ft);
+    font-size: 16px;
+    font-family: var(--font-family);
+    margin-left: 50px;
+}
+.description-area{
+    display: flex;
+    background-color: var(--light-green);
+    border-radius: 20px;
+    border: none;
+    color: var(--light-ft);
+    font-size: 14px;
+    font-family: var(--font-family);
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.save-btn{
+    display: flex;
+    margin: 0 auto;
+    background-color: var(--light-green);
+    width: 70px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 17px;
+    border: none;
+    border-radius: 20px;
+    color: var(--dark-ft);
+    font-size: 14px;
+    font-family: var(--font-family);
+    cursor: pointer;
+}
