@@ -35,7 +35,7 @@
       let activeClientId = null;
       let isEditingClient = false;
 
-      // Initially hide extra sizes
+
       extraSizesDiv.style.display = 'none';
 
       toggleMoreBtn.addEventListener('click', () => {
@@ -284,14 +284,13 @@
       }
 
       saveBtn.addEventListener('click', async () => {
-          const user = auth.currentUser; // Получаем текущего мастера
+          const user = auth.currentUser; 
           
           if (!user) {
               alert("Вы должны быть авторизованы!");
               return;
           }
 
-          // Собираем данные из полей
           const clientData = {
               name: document.getElementById('client-name').value,
               measurements: {

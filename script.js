@@ -1,6 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-// Добавляем импорт функций базы данных
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -15,10 +14,10 @@ import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10
 
   const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app); // Инициализация базы данных
+const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
-// Отслеживаем состояние входа
+
 onAuthStateChanged(auth, (user) => {
   if (user) {
     console.log("Пользователь авторизован, переходим...");
@@ -35,7 +34,7 @@ googleBtn.addEventListener('click', (e) => {
     .then(async (result) => {
       const user = result.user;
 
-      // Сохраняем данные в Firestore
+
       await setDoc(doc(db, "users", user.uid), {
         displayName: user.displayName,
         email: user.email,
@@ -44,7 +43,6 @@ googleBtn.addEventListener('click', (e) => {
       }, { merge: true });
 
       console.log("Данные сохранены!");
-      // Перенаправление произойдет автоматически через onAuthStateChanged
     })
     .catch((error) => {
       if (error.code === 'auth/popup-closed-by-user') {
@@ -55,4 +53,3 @@ googleBtn.addEventListener('click', (e) => {
       }
     });
 });
-// УДАЛЕНА лишняя скобка здесь

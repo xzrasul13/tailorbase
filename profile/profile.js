@@ -2,7 +2,7 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-  // Ваша конфигурация Firebase (та же, что и в auth.html)
+
   const firebaseConfig = {
     apiKey: "AIzaSyBQigoiucV2HtWdzG-HDsSVJ-mvMsDvC4g",
     authDomain: "tailorbase-bd0a6.firebaseapp.com",
@@ -16,11 +16,10 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  // Ссылка на элементы в HTML
+
   const userNameElement = document.getElementById('user-name');
   const logoutButton = document.querySelector('.logout');
 
-  // Обработчик кнопки выхода
   if (logoutButton) {
     logoutButton.addEventListener('click', async () => {
       try {
@@ -33,14 +32,12 @@
     });
   }
 
-  // Проверка состояния входа
+
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      // 1. Выводим имя пользователя
       userNameElement.innerText = user.displayName;
       console.log("Пользователь в системе:", user.uid);
     } else {
-      // Если пользователь не вошел, перенаправляем обратно на страницу логина
       window.location.href = "../auth.html";
     }
   });
