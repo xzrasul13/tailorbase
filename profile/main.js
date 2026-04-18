@@ -190,13 +190,13 @@
       deleteClientButton.addEventListener('click', async () => {
           const user = auth.currentUser;
           if (!user) {
-              alert('Вы должны быть авторизованы!');
+              alert("Шумо бояд аввал вориди система шавед!");
               return;
           }
 
           if (!activeClientId) return;
 
-          const confirmed = confirm('Удалить клиента?');
+          const confirmed = confirm('Оё шумо мехоҳед ин муштариро нест кунед?');
           if (!confirmed) return;
 
           try {
@@ -223,7 +223,7 @@
             : clients;
 
           if (filteredClients.length === 0) {
-              clientsContainer.innerHTML = '<div class="empty-clients">No clients found</div>';
+              clientsContainer.innerHTML = '<div class="empty-clients">Муштарӣ ёфт нашуд</div>';
               return;
           }
 
@@ -237,24 +237,24 @@
           }).join('');
 
           const measurementOrder = [
-              { key: 'height', label: 'Height' },
-              { key: 'waist', label: 'Waist' },
-              { key: 'bust', label: 'Bust' },
-              { key: 'hips', label: 'Hips' },
-              { key: 'shoulderWidth', label: 'Shoulder Width' },
-              { key: 'shoulderLength', label: 'Shoulder Length' },
-              { key: 'backWidth', label: 'Back Width' },
-              { key: 'backWaistLength', label: 'Back Waist Length' },
-              { key: 'neckGirth', label: 'Neck Girth' },
-              { key: 'sleeveLength', label: 'Sleeve Length' },
-              { key: 'armGirth', label: 'Arm Girth' },
-              { key: 'wrist', label: 'Wrist' },
-              { key: 'inseam', label: 'Inseam' },
-              { key: 'outseam', label: 'Outseam' },
-              { key: 'thigh', label: 'Thigh' },
-              { key: 'crotchDepth', label: 'Crotch Depth' },
-              { key: 'fullLength', label: 'Full Length' }
-          ];
+            { key: 'height', label: 'Қад' },
+            { key: 'waist', label: 'Камар' },
+            { key: 'bust', label: 'Қафаси сина' },
+            { key: 'hips', label: 'Бон (сурин)' },
+            { key: 'shoulderWidth', label: 'Бари китф' },
+            { key: 'shoulderLength', label: 'Дарозии китф' },
+            { key: 'backWidth', label: 'Бари пушт' },
+            { key: 'backWaistLength', label: 'Дарозии пушт то камар' },
+            { key: 'neckGirth', label: 'Даври гардан' },
+            { key: 'sleeveLength', label: 'Дарозии остин' },
+            { key: 'armGirth', label: 'Даври бозу' },
+            { key: 'wrist', label: 'Банди даст' },
+            { key: 'inseam', label: 'Дарозии пой (дарун)' },
+            { key: 'outseam', label: 'Дарозии пой (берун)' },
+            { key: 'thigh', label: 'Даври рон' },
+            { key: 'crotchDepth', label: 'Чуқурии нишаст' },
+            { key: 'fullLength', label: 'Дарозии пурра' }
+        ];
 
           clientsContainer.querySelectorAll('.client-card').forEach((card) => {
               card.addEventListener('click', () => {
@@ -320,14 +320,14 @@
               if (isEditingClient && activeClientId) {
                   const clientDocRef = doc(db, "users", user.uid, "clients", activeClientId);
                   await updateDoc(clientDocRef, clientData);
-                  alert("Клиент успешно обновлен!");
+                  alert("Муштарӣ бомуваффақият нав карда шуд!");
               } else {
                   const clientsRef = collection(db, "users", user.uid, "clients");
                   await addDoc(clientsRef, {
                       ...clientData,
                       createdAt: serverTimestamp()
                   });
-                  alert("Клиент успешно сохранен!");
+                  alert("Муштарӣ бомуваффақият захира шуд!");
               }
 
               hideAddMenu();
@@ -337,3 +337,5 @@
               alert("Не удалось сохранить данные.");
           }
       });
+
+      
