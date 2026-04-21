@@ -23,7 +23,6 @@ const firebaseConfig = {
   storageBucket: "tailorbase-bd0a6.firebasestorage.app",
   messagingSenderId: "457834537708",
   appId: "1:457834537708:web:cd83333948f731a87c7bc9",
-  measurementId: "G-VBSTY0NWN8",
 };
 
 const app = initializeApp(firebaseConfig);
@@ -49,6 +48,26 @@ let searchText = "";
 let activeClientId = null;
 let isEditingClient = false;
 
+const measurementFields = [
+  { id: "height",             key: "height",           label: "Қад" },
+  { id: "waist",              key: "waist",            label: "Камар" },
+  { id: "bust",               key: "bust",             label: "Қафаси сина" },
+  { id: "hips",               key: "hips",             label: "Бон (сурин)" },
+  { id: "sh-width",           key: "shoulderWidth",    label: "Бари китф" },
+  { id: "sh-length",          key: "shoulderLength",   label: "Дарозии китф" },
+  { id: "back-width",         key: "backWidth",        label: "Бари пушт" },
+  { id: "back-waist-length",  key: "backWaistLength",  label: "Дарозии пушт то камар" },
+  { id: "neck-girth",         key: "neckGirth",        label: "Даври гардан" },
+  { id: "sleeve-length",      key: "sleeveLength",     label: "Дарозии остин" },
+  { id: "arm-girth",          key: "armGirth",         label: "Даври бозу" },
+  { id: "wrist",              key: "wrist",            label: "Банди даст" },
+  { id: "inseam",             key: "inseam",           label: "Дарозии пой (дарун)" },
+  { id: "outseam",            key: "outseam",          label: "Дарозии пой (берун)" },
+  { id: "thigh",              key: "thigh",            label: "Даври рон" },
+  { id: "crotch-depth",       key: "crotchDepth",      label: "Чуқурии нишаст" },
+  { id: "full-length",        key: "fullLength",       label: "Дарозии пурра" },
+];
+
 extraSizesDiv.style.display = "none";
 
 toggleMoreBtn.addEventListener("click", () => {
@@ -59,109 +78,63 @@ toggleMoreBtn.addEventListener("click", () => {
 
 function resetAddForm() {
   document.getElementById("client-name").value = "";
-  document
-    .querySelectorAll(".measurement")
-    .forEach((input) => (input.value = ""));
+  document.querySelectorAll(".measurement").forEach((input) => (input.value = ""));
   document.getElementById("description").value = "";
   extraSizesDiv.style.display = "none";
   toggleMoreBtn.querySelector("span").textContent = "▽";
-  saveBtn.textContent = "save";
   isEditingClient = false;
   activeClientId = null;
 }
 
-function lockBodyScroll() {
-  document.body.style.overflow = "hidden";
+function lockBodyScroll() { document.body.style.overflow = "hidden"; }
+function unlockBodyScroll() { document.body.style.overflow = ""; }
+
+function showPopover(el) {
+  if (typeof el.showPopover === "function") el.showPopover();
+  else el.style.display = "block";
 }
 
-function unlockBodyScroll() {
-  document.body.style.overflow = "";
+function hidePopover(el) {
+  if (typeof el.hidePopover === "function") el.hidePopover();
+  else el.style.display = "none";
 }
 
 function openAddMenu(client = null) {
   if (client) {
     document.getElementById("client-name").value = client.name || "";
-    document.getElementById("height").value = client.measurements?.height || "";
-    document.getElementById("waist").value = client.measurements?.waist || "";
-    document.getElementById("bust").value = client.measurements?.bust || "";
-    document.getElementById("hips").value = client.measurements?.hips || "";
-    document.getElementById("sh-width").value =
-      client.measurements?.shoulderWidth || "";
-    document.getElementById("sh-length").value =
-      client.measurements?.shoulderLength || "";
-    document.getElementById("back-width").value =
-      client.measurements?.backWidth || "";
-    document.getElementById("back-waist-length").value =
-      client.measurements?.backWaistLength || "";
-    document.getElementById("neck-girth").value =
-      client.measurements?.neckGirth || "";
-    document.getElementById("sleeve-length").value =
-      client.measurements?.sleeveLength || "";
-    document.getElementById("arm-girth").value =
-      client.measurements?.armGirth || "";
-    document.getElementById("wrist").value = client.measurements?.wrist || "";
-    document.getElementById("inseam").value = client.measurements?.inseam || "";
-    document.getElementById("outseam").value =
-      client.measurements?.outseam || "";
-    document.getElementById("thigh").value = client.measurements?.thigh || "";
-    document.getElementById("crotch-depth").value =
-      client.measurements?.crotchDepth || "";
-    document.getElementById("full-length").value =
-      client.measurements?.fullLength || "";
+    measurementFields.forEach(({ id, key }) => {
+      document.getElementById(id).value = client.measurements?.[key] || "";
+    });
     document.getElementById("description").value = client.description || "";
     extraSizesDiv.style.display = "block";
     toggleMoreBtn.querySelector("span").textContent = "△";
-    saveBtn.textContent = "save";
     isEditingClient = true;
     activeClientId = client.id;
   } else {
     resetAddForm();
   }
-
-  if (addMenu && typeof addMenu.showPopover === "function") {
-    addMenu.showPopover();
-  } else {
-    addMenu.style.display = "block";
-  }
+  showPopover(addMenu);
   lockBodyScroll();
 }
 
 function hideAddMenu() {
-  if (addMenu && typeof addMenu.hidePopover === "function") {
-    addMenu.hidePopover();
-  } else {
-    addMenu.style.display = "none";
-  }
+  hidePopover(addMenu);
   unlockBodyScroll();
 }
 
 function hideDetailsPopover() {
-  if (detailsPopover && typeof detailsPopover.hidePopover === "function") {
-    detailsPopover.hidePopover();
-  }
-  if (detailsPopover) {
-    detailsPopover.style.display = "none";
-  }
+  detailsPopover.style.display = "none";
+  hidePopover(detailsPopover);
   unlockBodyScroll();
 }
 
 document.addEventListener("mousedown", (event) => {
   const target = event.target;
-
-  if (addMenu && addMenu.style.display !== "none") {
-    const isAddButton = target.closest(".add-client");
-    const isInsideAddMenu = addMenu.contains(target);
-    if (!isAddButton && !isInsideAddMenu) {
-      hideAddMenu();
-    }
+  if (addMenu.style.display !== "none" && !target.closest(".add-client") && !addMenu.contains(target)) {
+    hideAddMenu();
   }
-
-  if (detailsPopover && detailsPopover.style.display !== "none") {
-    const isClientCard = target.closest(".client-card");
-    const isInsideDetails = detailsPopover.contains(target);
-    if (!isInsideDetails && !isClientCard) {
-      hideDetailsPopover();
-    }
+  if (detailsPopover.style.display !== "none" && !detailsPopover.contains(target) && !target.closest(".client-card")) {
+    hideDetailsPopover();
   }
 });
 
@@ -187,54 +160,35 @@ onAuthStateChanged(auth, (user) => {
   });
 });
 
-if (searchInput) {
-  searchInput.addEventListener("input", (event) => {
-    searchText = event.target.value.trim().toLowerCase();
-    renderClients(clientsData, searchText);
-  });
-}
+searchInput?.addEventListener("input", (e) => {
+  searchText = e.target.value.trim().toLowerCase();
+  renderClients(clientsData, searchText);
+});
 
-if (addClientButton) {
-  addClientButton.addEventListener("click", (event) => {
-    event.stopPropagation();
-    openAddMenu(null);
-  });
-}
+addClientButton?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  openAddMenu(null);
+});
 
 editClientButton.addEventListener("click", () => {
   const client = clientsData.find((item) => item.id === activeClientId);
   if (!client) return;
-  if (detailsPopover && typeof detailsPopover.hidePopover === "function") {
-    detailsPopover.hidePopover();
-  } else {
-    detailsPopover.style.display = "none";
-  }
+  hidePopover(detailsPopover);
   openAddMenu(client);
 });
 
 deleteClientButton.addEventListener("click", async () => {
   const user = auth.currentUser;
-  if (!user) {
-    alert("Шумо бояд аввал вориди система шавед!");
-    return;
-  }
+  if (!user || !activeClientId) return;
 
-  if (!activeClientId) return;
-
-  const confirmed = confirm("Оё шумо мехоҳед ин муштариро нест кунед?");
-  if (!confirmed) return;
+  if (!confirm("Оё шумо мехоҳед ин муштариро нест кунед?")) return;
 
   try {
-    const clientDocRef = doc(db, "users", user.uid, "clients", activeClientId);
-    await deleteDoc(clientDocRef);
+    await deleteDoc(doc(db, "users", user.uid, "clients", activeClientId));
     activeClientId = null;
-    if (detailsPopover && typeof detailsPopover.hidePopover === "function") {
-      detailsPopover.hidePopover();
-    } else {
-      detailsPopover.style.display = "none";
-    }
+    hidePopover(detailsPopover);
   } catch (error) {
-    console.error("Ошибка при удалении клиента:", error);
+    console.error("Ошибка при удалении:", error);
     alert("Не удалось удалить клиента.");
   }
 });
@@ -242,74 +196,41 @@ deleteClientButton.addEventListener("click", async () => {
 function renderClients(clients, filter = "") {
   if (!clientsContainer) return;
 
-  const normalizedFilter = (filter || "").trim().toLowerCase();
-  const filteredClients = normalizedFilter
-    ? clients.filter((client) =>
-        (client.name || "").toLowerCase().includes(normalizedFilter),
-      )
+  const filtered = filter
+    ? clients.filter((c) => (c.name || "").toLowerCase().includes(filter))
     : clients;
 
-  if (filteredClients.length === 0) {
-    clientsContainer.innerHTML =
-      '<div class="empty-clients">Муштарӣ ёфт нашуд</div>';
+  if (filtered.length === 0) {
+    clientsContainer.innerHTML = '<div class="empty-clients">Муштарӣ ёфт нашуд</div>';
     return;
   }
 
-  clientsContainer.innerHTML = filteredClients
-    .map((client) => {
-      return `
-                <button type="button" class="client-card" data-id="${client.id}">
-                  <img src="../image/dress-photo.png" alt="Client photo" class="client-card-avatar">
-                  <div class="client-card-name">${client.name || "Без имени"}</div>
-                </button>
-              `;
-    })
+  clientsContainer.innerHTML = filtered
+    .map(
+      (client) => `
+        <button type="button" class="client-card" data-id="${client.id}">
+          <img src="../image/dress-photo.png" alt="Client photo" class="client-card-avatar">
+          <div class="client-card-name">${client.name || "Без имени"}</div>
+        </button>
+      `
+    )
     .join("");
-
-  const measurementOrder = [
-    { key: "height", label: "Қад" },
-    { key: "waist", label: "Камар" },
-    { key: "bust", label: "Қафаси сина" },
-    { key: "hips", label: "Бон (сурин)" },
-    { key: "shoulderWidth", label: "Бари китф" },
-    { key: "shoulderLength", label: "Дарозии китф" },
-    { key: "backWidth", label: "Бари пушт" },
-    { key: "backWaistLength", label: "Дарозии пушт то камар" },
-    { key: "neckGirth", label: "Даври гардан" },
-    { key: "sleeveLength", label: "Дарозии остин" },
-    { key: "armGirth", label: "Даври бозу" },
-    { key: "wrist", label: "Банди даст" },
-    { key: "inseam", label: "Дарозии пой (дарун)" },
-    { key: "outseam", label: "Дарозии пой (берун)" },
-    { key: "thigh", label: "Даври рон" },
-    { key: "crotchDepth", label: "Чуқурии нишаст" },
-    { key: "fullLength", label: "Дарозии пурра" },
-  ];
 
   clientsContainer.querySelectorAll(".client-card").forEach((card) => {
     card.addEventListener("click", () => {
-      const clientId = card.dataset.id;
-      const client = clientsData.find((item) => item.id === clientId);
+      const client = clientsData.find((item) => item.id === card.dataset.id);
       if (!client) return;
 
       activeClientId = client.id;
-
       detailName.textContent = client.name || "Без имени";
-      detailMeasurements.innerHTML = measurementOrder
-        .map(({ key, label }) => {
-          const value = client.measurements?.[key];
-          return `<div><strong>${label}</strong>: ${value || "-"}</div>`;
-        })
+      detailMeasurements.innerHTML = measurementFields
+        .map(({ key, label }) => `<div><strong>${label}</strong>: ${client.measurements?.[key] || "-"}</div>`)
         .join("");
-      detailDescription.textContent = client.description || "Нет описания";
+      detailDescription.textContent = client.description || "";
 
-      if (detailsPopover) {
-        detailsPopover.style.display = "block";
-        detailsPopover.style.zIndex = "1000";
-      }
-      if (detailsPopover && typeof detailsPopover.showPopover === "function") {
-        detailsPopover.showPopover(card);
-      }
+      detailsPopover.style.display = "block";
+      detailsPopover.style.zIndex = "1000";
+      showPopover(detailsPopover);
       lockBodyScroll();
     });
   });
@@ -317,57 +238,34 @@ function renderClients(clients, filter = "") {
 
 saveBtn.addEventListener("click", async () => {
   const user = auth.currentUser;
-
   if (!user) {
     alert("Вы должны быть авторизованы!");
     return;
   }
 
+  const measurements = {};
+  measurementFields.forEach(({ id, key }) => {
+    measurements[key] = document.getElementById(id).value;
+  });
+
   const clientData = {
     name: document.getElementById("client-name").value,
-    measurements: {
-      height: document.getElementById("height").value,
-      waist: document.getElementById("waist").value,
-      bust: document.getElementById("bust").value,
-      hips: document.getElementById("hips").value,
-      shoulderWidth: document.getElementById("sh-width").value,
-      shoulderLength: document.getElementById("sh-length").value,
-      backWidth: document.getElementById("back-width").value,
-      backWaistLength: document.getElementById("back-waist-length").value,
-      neckGirth: document.getElementById("neck-girth").value,
-      sleeveLength: document.getElementById("sleeve-length").value,
-      armGirth: document.getElementById("arm-girth").value,
-      wrist: document.getElementById("wrist").value,
-      inseam: document.getElementById("inseam").value,
-      outseam: document.getElementById("outseam").value,
-      thigh: document.getElementById("thigh").value,
-      crotchDepth: document.getElementById("crotch-depth").value,
-      fullLength: document.getElementById("full-length").value,
-    },
+    measurements,
     description: document.getElementById("description").value,
     updatedAt: serverTimestamp(),
   };
 
   try {
     if (isEditingClient && activeClientId) {
-      const clientDocRef = doc(
-        db,
-        "users",
-        user.uid,
-        "clients",
-        activeClientId,
-      );
-      await updateDoc(clientDocRef, clientData);
+      await updateDoc(doc(db, "users", user.uid, "clients", activeClientId), clientData);
       alert("Муштарӣ бомуваффақият нав карда шуд!");
     } else {
-      const clientsRef = collection(db, "users", user.uid, "clients");
-      await addDoc(clientsRef, {
+      await addDoc(collection(db, "users", user.uid, "clients"), {
         ...clientData,
         createdAt: serverTimestamp(),
       });
       alert("Муштарӣ бомуваффақият захира шуд!");
     }
-
     hideAddMenu();
     resetAddForm();
   } catch (error) {

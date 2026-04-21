@@ -22,11 +22,10 @@
 
 body {
   background-color: var(--background);
-  font-family: var(--font-family);
 }
 
 /* ═══════════════════════════════════════════════
-   HEADER — DESKTOP NAV (оригинал, ≥ 768px)
+   HEADER & NAV
 ═══════════════════════════════════════════════ */
 header {
   background-color: var(--dark-baige);
@@ -63,16 +62,7 @@ nav ul li a {
   white-space: nowrap;
 }
 
-.aboutus {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--dark-green);
-  width: 200px;
-  padding: 5px 0;
-  border-radius: 20px;
-}
-
+.aboutus,
 .login-btn {
   display: flex;
   justify-content: center;
@@ -83,7 +73,6 @@ nav ul li a {
   border-radius: 20px;
 }
 
-/* search inside login-btn pill */
 .search {
   background-color: transparent;
   border: none;
@@ -96,10 +85,8 @@ nav ul li a {
   text-align: center;
   color: var(--light-ft);
   font-size: 18px;
-  font-family: var(--font-family);
 }
 
-/* profile icon */
 .profile {
   display: flex;
   align-items: center;
@@ -114,7 +101,7 @@ nav ul li a {
 }
 
 /* ═══════════════════════════════════════════════
-   BURGER BUTTON  (скрыт на десктопе)
+   BURGER BUTTON
 ═══════════════════════════════════════════════ */
 .burger {
   display: none;
@@ -134,20 +121,11 @@ nav ul li a {
   height: 2px;
   background-color: var(--dark-ft);
   border-radius: 2px;
-  transition:
-    transform 0.28s ease,
-    opacity 0.28s ease;
+  transition: transform 0.28s ease, opacity 0.28s ease;
 }
-.burger.open span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
-}
-.burger.open span:nth-child(2) {
-  opacity: 0;
-  transform: scaleX(0);
-}
-.burger.open span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
-}
+.burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 /* ═══════════════════════════════════════════════
    MOBILE DRAWER
@@ -155,10 +133,7 @@ nav ul li a {
 .mobile-drawer-backdrop {
   display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
+  inset: 0;
   background-color: rgba(0, 0, 0, 0.3);
   z-index: 340;
   opacity: 0;
@@ -178,7 +153,6 @@ nav ul li a {
   background: var(--dark-baige);
   z-index: 350;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
   gap: 20px;
   padding: 60px 20px 40px;
@@ -197,14 +171,17 @@ nav ul li a {
   text-decoration: none;
   margin-bottom: 10px;
 }
-.mobile-drawer .drawer-pill {
+.mobile-drawer .drawer-pill,
+.mobile-drawer .drawer-search-pill {
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--dark-green);
   width: 220px;
-  padding: 10px 0;
   border-radius: 20px;
+}
+.mobile-drawer .drawer-pill {
+  padding: 10px 0;
 }
 .mobile-drawer .drawer-pill a {
   color: var(--light-ft);
@@ -212,13 +189,7 @@ nav ul li a {
   text-decoration: none;
 }
 .mobile-drawer .drawer-search-pill {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--dark-green);
-  width: 220px;
   padding: 10px 14px;
-  border-radius: 20px;
 }
 .mobile-drawer .drawer-search-pill input {
   background: transparent;
@@ -226,7 +197,6 @@ nav ul li a {
   outline: none;
   color: var(--light-ft);
   font-size: 16px;
-  font-family: var(--font-family);
   text-align: center;
   width: 100%;
 }
@@ -266,7 +236,6 @@ nav ul li a {
   right: 40px;
   border: none;
   cursor: pointer;
-  font-family: var(--font-family);
   z-index: 200;
   box-shadow: 0 4px 16px rgba(84, 107, 65, 0.35);
   touch-action: manipulation;
@@ -303,9 +272,7 @@ nav ul li a {
   cursor: pointer;
   text-align: center;
   color: var(--dark-ft);
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
   touch-action: manipulation;
 }
 .client-card:hover {
@@ -328,7 +295,6 @@ nav ul li a {
   font-size: 18px;
   font-weight: bold;
   word-break: break-word;
-  white-space: normal;
 }
 .empty-clients {
   color: #555;
@@ -346,30 +312,18 @@ nav ul li a {
   border-radius: 20px;
   border: none;
   background-color: var(--dark-baige);
-  font-family: var(--font-family);
   color: var(--dark-ft);
   max-height: 500px;
   overflow: auto;
-  box-sizing: border-box;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.popover-content::-webkit-scrollbar {
-  width: 10px;
-}
-.popover-content::-webkit-scrollbar-track {
-  background: transparent;
-  border-radius: 20px;
-}
-.popover-content::-webkit-scrollbar-thumb {
-  background: rgba(84, 107, 65, 0.35);
-  border-radius: 20px;
-}
-.popover-content::backdrop {
-  background-color: rgba(0, 0, 0, 0.3);
-}
+.popover-content::-webkit-scrollbar { width: 10px; }
+.popover-content::-webkit-scrollbar-track { background: transparent; border-radius: 20px; }
+.popover-content::-webkit-scrollbar-thumb { background: rgba(84, 107, 65, 0.35); border-radius: 20px; }
+.popover-content::backdrop { background-color: rgba(0, 0, 0, 0.3); }
 
 .client-details-popover {
   max-width: 300px;
@@ -382,31 +336,19 @@ nav ul li a {
   transform: translate(-50%, -50%);
 }
 .client-details-popover h3 {
-  margin-top: 0;
   margin-bottom: 10px;
   font-size: 24px;
 }
 .detail-measurements {
   margin-bottom: 12px;
   line-height: 1.5;
-  word-wrap: break-word;
   overflow-wrap: break-word;
 }
 .detail-description {
   margin-bottom: 12px;
   color: #333;
   white-space: pre-wrap;
-  word-break: break-word;
   overflow-wrap: anywhere;
-}
-.close-btn {
-  background-color: var(--dark-green);
-  color: var(--light-ft);
-  border: none;
-  border-radius: 12px;
-  padding: 10px 14px;
-  cursor: pointer;
-  font-family: var(--font-family);
 }
 .detail-actions {
   display: flex;
@@ -419,12 +361,11 @@ nav ul li a {
   padding: 10px 14px;
   border: none;
   border-radius: 12px;
-  font-family: var(--font-family);
   cursor: pointer;
   touch-action: manipulation;
 }
 .edit-btn {
-  background-color: #546b41;
+  background-color: var(--dark-green);
   color: var(--light-ft);
 }
 .delete-btn {
@@ -435,24 +376,21 @@ nav ul li a {
 /* ─── Form inputs ─── */
 .input-name {
   background-color: var(--dark-baige);
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 200px;
   padding: 5px 0;
   border: none;
   color: var(--light-ft);
   font-size: 18px;
-  font-family: var(--font-family);
   margin: 0 auto;
   outline: none;
+  display: block;
+  text-align: center;
 }
 .input-name::placeholder {
   color: var(--dark-ft);
   font-size: 18px;
   text-align: center;
 }
-
 .size-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -465,7 +403,6 @@ nav ul li a {
   justify-content: space-between;
   font-size: 13px;
 }
-
 .measurement {
   background-color: var(--dark-green);
   width: 50px;
@@ -474,7 +411,6 @@ nav ul li a {
   border-radius: 20px;
   color: var(--light-ft);
   font-size: 10px;
-  font-family: var(--font-family);
   margin: 5px;
   text-align: center;
 }
@@ -486,7 +422,6 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
-
 .more-sizes-btn {
   background-color: transparent;
   width: 200px;
@@ -494,17 +429,14 @@ input[type="number"] {
   border: none;
   color: var(--dark-ft);
   font-size: 16px;
-  font-family: var(--font-family);
   cursor: pointer;
 }
 .description-area {
-  display: flex;
   background-color: var(--light-green);
   border-radius: 20px;
   border: none;
   color: var(--light-ft);
   font-size: 14px;
-  font-family: var(--font-family);
   padding: 10px;
   margin-bottom: 10px;
   width: 100%;
@@ -521,7 +453,6 @@ input[type="number"] {
   border-radius: 20px;
   color: var(--dark-ft);
   font-size: 14px;
-  font-family: var(--font-family);
   cursor: pointer;
 }
 
@@ -539,7 +470,6 @@ input[type="number"] {
   color: var(--dark-ft);
 }
 .user-info {
-  display: flex;
   font-size: 36px;
   margin: 0 auto;
   color: var(--dark-ft);
@@ -548,6 +478,7 @@ hr {
   width: 700px;
   border: 2px solid var(--dark-green);
   border-radius: 10px;
+  margin: 10px auto;
 }
 .log-out {
   display: flex;
@@ -566,7 +497,6 @@ hr {
   border-radius: 20px;
   color: var(--light-ft);
   font-size: 18px;
-  font-family: var(--font-family);
   cursor: pointer;
   touch-action: manipulation;
 }
@@ -614,9 +544,7 @@ footer p {
   gap: 40px;
   padding: 50px;
 }
-.main-sectoin img {
-  width: 300px;
-}
+.main-sectoin img { width: 300px; }
 .main-sectoin button {
   width: 150px;
   height: 35px;
@@ -627,7 +555,6 @@ footer p {
   touch-action: manipulation;
 }
 .main-sectoin button a {
-  font-family: var(--font-family);
   font-size: 16px;
   color: var(--light-ft);
   text-decoration: none;
@@ -680,9 +607,7 @@ footer p {
   padding: 40px 20px;
   min-height: calc(100dvh - 56px);
 }
-.auth > img {
-  width: 450px;
-}
+.auth > img { width: 450px; }
 .auth-section {
   display: flex;
   justify-content: center;
@@ -721,15 +646,11 @@ footer p {
   height: 50px;
   background-color: var(--light-green);
   border-radius: 10px;
-  border: none;
   color: var(--light-ft);
-  font-family: var(--font-family);
   font-size: 16px;
   cursor: pointer;
 }
-.auth-div img {
-  width: 40px;
-}
+.auth-div img { width: 40px; }
 .auth-div p {
   color: var(--light-ft);
   font-size: 13px;
@@ -739,199 +660,77 @@ footer p {
    MOBILE  (< 768px)
 ═══════════════════════════════════════════════ */
 @media (max-width: 767px) {
-  /* Показываем бургер, прячем десктопные элементы nav */
-  .burger {
-    display: flex;
-  }
-  .aboutus,
-  .login-btn,
-  .profile {
-    display: none !important;
-  }
+  .burger { display: flex; }
+  .aboutus, .login-btn, .profile { display: none !important; }
 
   nav {
     justify-content: space-between;
     padding: 0 6px;
   }
-  nav ul {
-    gap: 0;
-    justify-content: flex-start;
-  }
+  nav ul { gap: 0; justify-content: flex-start; }
 
-  /* ── INDEX ── */
+  /* INDEX */
   .main-sectoin {
     flex-direction: column;
     padding: 24px 20px 36px;
     gap: 20px;
     text-align: center;
   }
-  .main-sectoin img {
-    width: 75%;
-    max-width: 260px;
-    order: -1;
-  }
-  .main-text {
-    align-items: center;
-    max-width: 100%;
-  }
-  .main-text h1 {
-    font-size: 21px;
-    line-height: 1.35;
-  }
-  .main-text p {
-    font-size: 14px;
-  }
-  .main-sectoin button {
-    width: 140px;
-  }
+  .main-sectoin img { width: 75%; max-width: 260px; order: -1; }
+  .main-text { align-items: center; max-width: 100%; }
+  .main-text h1 { font-size: 21px; line-height: 1.35; }
+  .main-text p { font-size: 14px; }
+  .main-sectoin button { width: 140px; }
 
-  /* ── ABOUT ── */
-  .about-section {
-    padding: 20px 20px 40px;
-  }
-  .about-section h1 {
-    font-size: 24px;
-  }
-  .about-section p {
-    font-size: 15px;
-    line-height: 1.7;
-  }
+  /* ABOUT */
+  .about-section { padding: 20px 20px 40px; }
+  .about-section h1 { font-size: 24px; }
+  .about-section p { font-size: 15px; }
 
-  /* ── AUTH ── */
-  .auth {
-    flex-direction: column;
-    gap: 24px;
-    padding: 28px 20px;
-    min-height: unset;
-  }
-  .auth > img {
-    width: 85%;
-    max-width: 280px;
-    order: -1;
-  }
-  .auth-section {
-    width: 100%;
-    max-width: 300px;
-    height: auto;
-    padding: 28px 0;
-    margin: 0;
-  }
-  .auth-div h2 {
-    padding-bottom: 20px;
-    font-size: 22px;
-  }
+  /* AUTH */
+  .auth { flex-direction: column; gap: 24px; padding: 28px 20px; min-height: unset; }
+  .auth > img { width: 85%; max-width: 280px; order: -1; }
+  .auth-section { width: 100%; max-width: 300px; height: auto; padding: 28px 0; }
+  .auth-div h2 { padding-bottom: 20px; font-size: 22px; }
 
-  /* ── CLIENTS ── */
-  .clients-section {
-    padding: 14px 14px 80px;
-  }
-  .clients-section h2 {
-    font-size: 22px;
-  }
-  .clients-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    justify-items: unset;
-  }
-  .client-card {
-    width: 100%;
-    min-height: 170px;
-    padding: 10px 8px;
-  }
-  .client-card-avatar {
-    width: 100px;
-    height: auto;
-  }
-  .client-card-name {
-    font-size: 13px;
-  }
+  /* CLIENTS */
+  .clients-section { padding: 14px 14px 80px; }
+  .clients-section h2 { font-size: 22px; }
+  .clients-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .client-card { width: 100%; min-height: 170px; padding: 10px 8px; }
+  .client-card-avatar { width: 100px; height: auto; }
+  .client-card-name { font-size: 13px; }
+  .add-client { width: 50px; height: 50px; bottom: 18px; right: 14px; font-size: 30px; border-radius: 14px; }
 
-  .add-client {
-    width: 50px;
-    height: 50px;
-    bottom: 18px;
-    right: 14px;
-    font-size: 30px;
-    border-radius: 14px;
-  }
-
-  /* Popover → centered on mobile */
   .popover-content {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     width: 90%;
     max-width: 480px;
     max-height: 80vh;
-    border-radius: 20px;
     z-index: 500;
   }
-  .client-details-popover {
-    min-width: unset;
-    max-width: 90%;
-  }
-  .detail-actions {
-    flex-direction: row;
-  }
-  .edit-btn,
-  .delete-btn {
-    flex: 1;
-    font-size: 14px;
-    padding: 11px 8px;
-  }
+  .client-details-popover { min-width: unset; max-width: 90%; }
+  .detail-actions { flex-direction: row; }
+  .edit-btn, .delete-btn { flex: 1; font-size: 14px; padding: 11px 8px; }
+  .size-item { background: rgba(84, 107, 65, 0.1); border-radius: 10px; padding: 5px 8px; font-size: 12px; }
 
-  /* ── SIZE GRID inside popover ── */
-  .size-item {
-    background: rgba(84, 107, 65, 0.1);
-    border-radius: 10px;
-    padding: 5px 8px;
-    font-size: 12px;
-  }
+  /* PROFILE */
+  .profile-section { padding: 20px 20px 10px; align-items: center; }
+  .profile-section h1 { font-size: 24px; }
+  .user-info { font-size: 22px; }
+  hr { width: calc(100% - 40px); margin: 8px auto; }
 
-  /* ── PROFILE ── */
-  .profile-section {
-    padding: 20px 20px 10px;
-    align-items: center;
-  }
-  .profile-section h1 {
-    font-size: 24px;
-  }
-  .user-info {
-    font-size: 22px;
-  }
-  hr {
-    width: calc(100% - 40px);
-    margin: 8px auto;
-  }
-
-  /* ── FOOTER ── */
-  footer ul {
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-  }
-  footer h3 {
-    font-size: 22px;
-  }
+  /* FOOTER */
+  footer ul { flex-direction: column; gap: 10px; align-items: center; }
+  footer h3 { font-size: 22px; }
 }
 
 /* ═══════════════════════════════════════════════
-   TABLET  (600px – 767px)  — бургер ещё активен
+   TABLET  (600px – 767px)
 ═══════════════════════════════════════════════ */
 @media (min-width: 600px) and (max-width: 767px) {
-  .clients-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .client-card {
-    min-height: 190px;
-  }
-  .client-card-avatar {
-    width: 90px;
-    height: 90px;
-  }
-
+  .clients-grid { grid-template-columns: repeat(3, 1fr); }
+  .client-card { min-height: 190px; }
+  .client-card-avatar { width: 90px; height: 90px; }
   .popover-content {
     max-width: 420px;
     left: 50%;
@@ -939,80 +738,18 @@ footer p {
     transform: translate(-50%, 0);
     border-radius: 20px 20px 0 0;
     bottom: 0;
+    top: auto;
     max-height: 80dvh;
   }
 }
 
 /* ═══════════════════════════════════════════════
-   DESKTOP  (≥ 768px) — оригинальный nav, без бургера
+   DESKTOP  (≥ 768px)
 ═══════════════════════════════════════════════ */
 @media (min-width: 768px) {
-  .burger {
-    display: none !important;
-  }
-  .mobile-drawer {
-    display: none !important;
-  }
-
-  .aboutus,
-  .login-btn,
-  .profile {
-    display: flex !important;
-  }
-
-  nav {
-    justify-content: center;
-  }
-  nav ul {
-    gap: 40px;
-  }
-}
-
-@media (min-width: 900px) {
-  .profile img {
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    right: 50px;
-  }
-  .clients-section {
-    padding: 20px 40px;
-  }
-  .clients-section h2 {
-    font-size: 32px;
-  }
-  .clients-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
-  }
-  .client-card {
-    width: 200px;
-    min-height: 220px;
-  }
-  .client-card-avatar {
-    width: 130px;
-    height: 130px;
-  }
-  .popover-content {
-    max-width: 480px;
-  }
-  .client-details-popover {
-    max-width: 320px;
-    min-width: 300px;
-  }
-  .add-client {
-    width: 60px;
-    height: 60px;
-    bottom: 40px;
-    right: 40px;
-  }
-  .profile-section {
-    padding: 50px 50px 10px 100px;
-  }
-  hr {
-    width: 700px;
-    margin: 10px auto;
-  }
+  .burger { display: none !important; }
+  .mobile-drawer { display: none !important; }
+  .aboutus, .login-btn, .profile { display: flex !important; }
+  nav { justify-content: center; }
+  nav ul { gap: 40px; }
 }
