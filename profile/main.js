@@ -30,6 +30,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 const clientsContainer = document.getElementById("clients-container");
+const clientsCount = document.getElementById("clients-count");
 const detailsPopover = document.getElementById("client-details-popover");
 const detailName = document.getElementById("detail-client-name");
 const detailMeasurements = document.getElementById("detail-measurements");
@@ -42,6 +43,24 @@ const toggleMoreBtn = document.getElementById("toggle-more");
 const extraSizesDiv = document.getElementById("extra-sizes-div");
 const addMenu = document.getElementById("add-menu");
 const addClientButton = document.querySelector(".add-client");
+const nameInput = document.getElementById("client-name");
+const nameError = document.getElementById("name-error");
+
+// ── Toast ──────────────────────────────────────────
+function showToast(message, type = "success") {
+  const container = document.getElementById("toast-container");
+  const toast = document.createElement("div");
+  toast.className = `toast toast-${type}`;
+  toast.textContent = message;
+  container.appendChild(toast);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => toast.classList.add("show"));
+  });
+  setTimeout(() => {
+    toast.classList.remove("show");
+    toast.addEventListener("transitionend", () => toast.remove(), { once: true });
+  }, 3000);
+}
 
 let clientsData = [];
 let searchText = "";
@@ -49,6 +68,7 @@ let activeClientId = null;
 let isEditingClient = false;
 
 const measurementFields = [
+  { id: "phone",              key: "phone",            label: "Телефон" },
   { id: "height",             key: "height",           label: "Қад" },
   { id: "waist",              key: "waist",            label: "Камар" },
   { id: "bust",               key: "bust",             label: "Қафаси сина" },
@@ -77,7 +97,9 @@ toggleMoreBtn.addEventListener("click", () => {
 });
 
 function resetAddForm() {
-  document.getElementById("client-name").value = "";
+  nameInput.value = "";
+  nameInput.classList.remove("input-error");
+  nameError.classList.remove("visible");
   document.querySelectorAll(".measurement").forEach((input) => (input.value = ""));
   document.getElementById("description").value = "";
   extraSizesDiv.style.display = "none";
@@ -187,9 +209,10 @@ deleteClientButton.addEventListener("click", async () => {
     await deleteDoc(doc(db, "users", user.uid, "clients", activeClientId));
     activeClientId = null;
     hidePopover(detailsPopover);
+    showToast("Муштарӣ нест карда шуд.", "info");
   } catch (error) {
     console.error("Ошибка при удалении:", error);
-    alert("Не удалось удалить клиента.");
+    showToast("Хатогӣ ҳангоми нест кардан.", "error");
   }
 });
 
@@ -199,6 +222,11 @@ function renderClients(clients, filter = "") {
   const filtered = filter
     ? clients.filter((c) => (c.name || "").toLowerCase().includes(filter))
     : clients;
+
+  // Update counter
+  if (clientsCount) {
+    clientsCount.textContent = filtered.length > 0 ? `(${filtered.length})` : "";
+  }
 
   if (filtered.length === 0) {
     clientsContainer.innerHTML = '<div class="empty-clients">Муштарӣ ёфт нашуд</div>';
@@ -236,12 +264,30 @@ function renderClients(clients, filter = "") {
   });
 }
 
+nameInput?.addEventListener("input", () => {
+  if (nameInput.value.trim()) {
+    nameInput.classList.remove("input-error");
+    nameError.classList.remove("visible");
+  }
+});
+
 saveBtn.addEventListener("click", async () => {
   const user = auth.currentUser;
   if (!user) {
-    alert("Вы должны быть авторизованы!");
+    showToast("Шумо бояд ворид шавед!", "error");
     return;
   }
+
+  // Validation
+  const name = nameInput.value.trim();
+  if (!name) {
+    nameInput.classList.add("input-error");
+    nameError.classList.add("visible");
+    nameInput.focus();
+    return;
+  }
+  nameInput.classList.remove("input-error");
+  nameError.classList.remove("visible");
 
   const measurements = {};
   measurementFields.forEach(({ id, key }) => {
@@ -249,7 +295,7 @@ saveBtn.addEventListener("click", async () => {
   });
 
   const clientData = {
-    name: document.getElementById("client-name").value,
+    name,
     measurements,
     description: document.getElementById("description").value,
     updatedAt: serverTimestamp(),
@@ -258,18 +304,18 @@ saveBtn.addEventListener("click", async () => {
   try {
     if (isEditingClient && activeClientId) {
       await updateDoc(doc(db, "users", user.uid, "clients", activeClientId), clientData);
-      alert("Муштарӣ бомуваффақият нав карда шуд!");
+      showToast("Муштарӣ бомуваффақият нав карда шуд!", "success");
     } else {
       await addDoc(collection(db, "users", user.uid, "clients"), {
         ...clientData,
         createdAt: serverTimestamp(),
       });
-      alert("Муштарӣ бомуваффақият захира шуд!");
+      showToast("Муштарӣ бомуваффақият сабт шуд!", "success");
     }
     hideAddMenu();
     resetAddForm();
   } catch (error) {
     console.error("Ошибка при сохранении:", error);
-    alert("Не удалось сохранить данные.");
+    showToast("Хатогӣ ҳангоми сабт кардан.", "error");
   }
 });

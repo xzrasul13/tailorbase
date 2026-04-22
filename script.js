@@ -41,7 +41,7 @@ document.getElementById("google-login").addEventListener("click", async (e) => {
         photoURL: user.photoURL,
         lastLogin: new Date(),
       },
-      { merge: true }
+      { merge: true },
     );
   } catch (error) {
     if (error.code !== "auth/popup-closed-by-user") {

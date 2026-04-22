@@ -53,7 +53,7 @@
     </header>
 
     <section class="clients-section">
-      <h2>Муштариён</h2>
+      <h2>Муштариён <span id="clients-count" class="clients-count"></span></h2>
       <div id="clients-container" class="clients-grid"></div>
     </section>
 
@@ -67,6 +67,13 @@
         id="client-name"
         class="input-name"
         placeholder="Номи муштарӣ"
+      />
+      <p class="input-error-msg" id="name-error">Номи муштариро нависед!</p>
+      <input
+        type="number"
+        id="phone"
+        class="phone-input"
+        placeholder="Рақами телефон"
       />
       <div class="size-grid">
         <div class="size-item">
@@ -143,7 +150,7 @@
         class="description-area"
         placeholder="Тавсиф"
       ></textarea>
-      <button class="save-btn" id="save-client-btn">Захира кардан</button>
+      <button class="save-btn" id="save-client-btn">Сабт кардан</button>
     </div>
 
     <div
@@ -211,6 +218,8 @@
         });
       }
     </script>
+
+    <div id="toast-container"></div>
 
     <script type="module" src="main.js"></script>
   </body>
